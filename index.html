@@ -1119,6 +1119,552 @@
     .screen { border-radius: 38px; }
     .notch { width: 96px; height: 28px; }
   }
+
+  /* ─── onboarding ─────────────────────────────────────── */
+  .onboarding {
+    position: absolute; inset: 0; z-index: 60;
+    background: var(--paper);
+    border-radius: 44px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    transition: opacity .5s var(--ease), transform .5s var(--ease);
+  }
+  .onboarding.is-closed {
+    opacity: 0; transform: translateY(-10px); pointer-events: none;
+  }
+  .onboarding .head {
+    padding: 64px 28px 0;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .onboarding .progress {
+    display: flex; gap: 4px; flex: 1;
+  }
+  .onboarding .progress span {
+    flex: 1; height: 3px; border-radius: 2px;
+    background: var(--paper-2);
+    transition: background .25s var(--ease);
+  }
+  .onboarding .progress span.on { background: var(--ink); }
+  .onboarding .skip {
+    font-family: var(--mono);
+    font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--mute);
+  }
+  .onboarding .stage {
+    flex: 1; padding: 36px 28px 0;
+    position: relative;
+    display: block; grid-template-columns: none; align-items: stretch;
+  }
+  .onboard-step {
+    position: absolute;
+    inset: 36px 28px 0;
+    opacity: 0;
+    transform: translateX(14px);
+    transition: opacity .4s var(--ease), transform .4s var(--ease);
+    pointer-events: none;
+  }
+  .onboard-step.is-active {
+    opacity: 1; transform: translateX(0); pointer-events: auto;
+  }
+  .onboard-step .eyebrow { margin-bottom: 12px; display: inline-block; }
+  .onboard-step h2 {
+    font-family: var(--serif);
+    font-weight: 360;
+    font-size: 34px; line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 14px;
+  }
+  .onboard-step h2 em { font-style: italic; color: var(--focus); }
+  .onboard-step p {
+    font-size: 13.5px; line-height: 1.55; color: var(--ink-2);
+    max-width: 28ch;
+  }
+  .text-input {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--line-2);
+    padding: 14px 0;
+    margin-top: 28px;
+    font-family: var(--serif);
+    font-weight: 360;
+    font-size: 22px;
+    letter-spacing: -.02em;
+    color: var(--ink);
+    outline: none;
+    transition: border-color .2s var(--ease);
+  }
+  .text-input:focus { border-bottom-color: var(--focus); }
+  .text-input::placeholder { color: var(--mute-2); }
+  .onboard-intent-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px; margin-top: 24px;
+  }
+  .onboard-intent {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 14px;
+    display: flex; flex-direction: column;
+    align-items: flex-start; gap: 16px;
+    text-align: left;
+    transition: all .25s var(--ease);
+    justify-content: space-between;
+  }
+  .onboard-intent .glyph {
+    width: 32px; height: 32px;
+    border-radius: 10px;
+    background: var(--paper-2);
+    display: grid; place-items: center;
+    color: var(--ink-2);
+    transition: all .25s var(--ease);
+  }
+  .onboard-intent .glyph svg { width: 18px; height: 18px; stroke-width: 1.5; }
+  .onboard-intent .name {
+    font-family: var(--serif);
+    font-weight: 360;
+    font-size: 17px;
+    letter-spacing: -.02em;
+    line-height: 1.1;
+  }
+  .onboard-intent .desc {
+    font-family: var(--mono);
+    font-size: 9px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--mute);
+    margin-top: 3px;
+  }
+  .onboard-intent[data-i="focus"].is-active    { border-color: var(--focus); }
+  .onboard-intent[data-i="focus"].is-active .glyph    { background: var(--focus); color: var(--cream); }
+  .onboard-intent[data-i="energize"].is-active { border-color: var(--energize); }
+  .onboard-intent[data-i="energize"].is-active .glyph { background: var(--energize); color: var(--cream); }
+  .onboard-intent[data-i="unwind"].is-active   { border-color: var(--unwind); }
+  .onboard-intent[data-i="unwind"].is-active .glyph   { background: var(--unwind); color: var(--cream); }
+  .onboard-intent[data-i="recover"].is-active  { border-color: var(--recover); }
+  .onboard-intent[data-i="recover"].is-active .glyph  { background: var(--recover); color: var(--cream); }
+  .time-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px; margin-top: 22px;
+  }
+  .time-opt {
+    padding: 14px;
+    border-radius: 14px;
+    background: var(--cream);
+    border: 1px solid var(--line);
+    text-align: left;
+    transition: all .2s var(--ease);
+  }
+  .time-opt .when {
+    font-family: var(--mono);
+    font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--mute);
+    margin-bottom: 4px;
+  }
+  .time-opt .time {
+    font-family: var(--serif);
+    font-weight: 360;
+    font-size: 20px; letter-spacing: -.02em;
+  }
+  .time-opt.is-active {
+    background: var(--ink); color: var(--cream);
+    border-color: var(--ink);
+  }
+  .time-opt.is-active .when { color: var(--mute-2); }
+  .done-check {
+    width: 88px; height: 88px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--cream);
+    display: grid; place-items: center;
+    margin: 24px auto 22px;
+    box-shadow: 0 20px 50px -16px rgba(42,35,26,.3);
+  }
+  .done-check svg { width: 36px; height: 36px; }
+  .onboarding .foot {
+    padding: 18px 28px 36px;
+  }
+
+  /* ─── shared sheet (slides up) ───────────────────────── */
+  .sheet {
+    position: absolute; inset: 0; z-index: 45;
+    background: var(--paper);
+    border-radius: 44px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    transform: translateY(100%);
+    transition: transform .5s var(--ease);
+  }
+  .sheet.is-open { transform: translateY(0); }
+  .sheet .sheet-head {
+    padding: 24px 24px 8px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .sheet .sheet-close {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--line-2);
+    display: grid; place-items: center;
+    color: var(--ink-2);
+    background: rgba(251,247,238,.8);
+    backdrop-filter: blur(8px);
+  }
+  .sheet .sheet-title {
+    font-family: var(--mono);
+    font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--mute);
+  }
+  .sheet-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 22px 32px;
+    scrollbar-width: none;
+  }
+  .sheet-body::-webkit-scrollbar { display: none; }
+  .sheet-body h2 {
+    font-family: var(--serif);
+    font-weight: 360;
+    font-size: 30px; line-height: 1;
+    letter-spacing: -.025em;
+    margin: 4px 0 22px;
+  }
+  .sheet-body h2 em { font-style: italic; color: var(--focus); }
+
+  /* ─── ritual catalog ─────────────────────────────────── */
+  .ritual-group { margin-bottom: 22px; }
+  .ritual-group .heading {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 10px;
+  }
+  .ritual-group .heading .sw {
+    width: 10px; height: 10px; border-radius: 50%;
+  }
+  .ritual-group .heading .name {
+    font-family: var(--mono);
+    font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  .ritual-group .heading .count {
+    font-family: var(--mono);
+    font-size: 10px; letter-spacing: .14em;
+    color: var(--mute); margin-left: auto;
+  }
+  .ritual-row {
+    display: grid;
+    grid-template-columns: 44px 1fr auto;
+    align-items: center; gap: 12px;
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    margin-bottom: 6px;
+    transition: transform .2s var(--ease);
+    text-align: left;
+  }
+  .ritual-row:active { transform: scale(0.99); }
+  .ritual-row .ico {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: grid; place-items: center;
+    background: var(--paper-2);
+    color: var(--accent, var(--ink-2));
+  }
+  .ritual-row[data-i="focus"]    { --accent: var(--focus); }
+  .ritual-row[data-i="energize"] { --accent: var(--energize); }
+  .ritual-row[data-i="unwind"]   { --accent: var(--unwind); }
+  .ritual-row[data-i="recover"]  { --accent: var(--recover); }
+  .ritual-row .ico svg { width: 20px; height: 20px; stroke-width: 1.6; }
+  .ritual-row .title {
+    font-family: var(--serif);
+    font-weight: 360;
+    font-size: 15.5px;
+    line-height: 1.1;
+    letter-spacing: -.015em;
+    color: var(--ink);
+  }
+  .ritual-row .meta {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--mute);
+    margin-top: 4px;
+  }
+  .ritual-row .arr {
+    width: 30px; height: 30px;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    border: 1px solid var(--line-2);
+    color: var(--ink-2);
+  }
+  .ritual-row .arr svg { width: 11px; height: 11px; }
+
+  /* ─── article reader ─────────────────────────────────── */
+  .reader-hero {
+    height: 240px;
+    background:
+      radial-gradient(120% 90% at 30% 20%, rgba(255,255,255,.42), transparent 50%),
+      linear-gradient(160deg, var(--accent, var(--focus)) 0%, color-mix(in srgb, var(--accent, var(--focus)) 45%, #1a1612) 100%);
+    margin: -12px -22px 18px;
+    border-radius: 0 0 26px 26px;
+    position: relative;
+    color: var(--cream);
+    padding: 80px 22px 22px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .reader-hero::after {
+    content: ""; position: absolute;
+    right: -30px; bottom: -30px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: rgba(0,0,0,.18);
+    pointer-events: none;
+  }
+  .reader-hero .crumb {
+    font-family: var(--mono);
+    font-size: 10px; letter-spacing: .16em; text-transform: uppercase;
+    color: rgba(251,247,238,.72);
+    position: relative; z-index: 1;
+  }
+  .reader-hero h1 {
+    font-family: var(--serif);
+    font-weight: 360;
+    font-size: 26px; line-height: 1.06;
+    letter-spacing: -.025em;
+    position: relative; z-index: 1;
+  }
+  .reader-hero h1 em { font-style: italic; }
+  .reader-hero .byline {
+    font-family: var(--mono);
+    font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+    color: rgba(251,247,238,.78);
+    margin-top: 10px;
+    position: relative; z-index: 1;
+  }
+  .audio-bar {
+    display: grid; grid-template-columns: 36px 1fr auto;
+    gap: 12px; align-items: center;
+    padding: 10px 12px;
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    margin-bottom: 22px;
+  }
+  .audio-bar .play {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper);
+    display: grid; place-items: center;
+  }
+  .audio-bar .play svg { width: 11px; height: 11px; }
+  .audio-bar .track {
+    height: 4px; border-radius: 2px;
+    background: var(--paper-2);
+    position: relative;
+  }
+  .audio-bar .track::after {
+    content: ""; position: absolute;
+    left: 0; top: 0; bottom: 0; width: 32%;
+    background: var(--accent, var(--focus)); border-radius: 2px;
+  }
+  .audio-bar .track::before {
+    content: ""; position: absolute;
+    left: 32%; top: 50%;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--ink);
+    transform: translate(-50%, -50%);
+  }
+  .audio-bar .dur {
+    font-family: var(--mono);
+    font-size: 10px; letter-spacing: .08em;
+    color: var(--mute);
+  }
+  .reader-body {
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: var(--ink-2);
+  }
+  .reader-body p { margin-bottom: 14px; }
+  .reader-body p.lead {
+    font-family: var(--serif);
+    font-weight: 360;
+    font-size: 19px; line-height: 1.35;
+    letter-spacing: -.01em;
+    color: var(--ink);
+    margin-bottom: 22px;
+  }
+  .reader-body h3 {
+    font-family: var(--serif);
+    font-weight: 360;
+    font-size: 18px; line-height: 1.2;
+    letter-spacing: -.02em;
+    color: var(--ink);
+    margin: 8px 0 10px;
+  }
+  .reader-body h3 em { font-style: italic; color: var(--accent, var(--focus)); }
+  .reader-body blockquote {
+    margin: 18px -4px;
+    padding: 14px 18px;
+    border-left: 2px solid var(--accent, var(--focus));
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.4;
+    color: var(--ink);
+    background: color-mix(in srgb, var(--accent, var(--focus)) 8%, var(--cream));
+    border-radius: 0 12px 12px 0;
+  }
+  .reader-related {
+    margin-top: 26px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+  }
+  .reader-related .lbl {
+    font-family: var(--mono);
+    font-size: 10px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--mute);
+    margin-bottom: 10px;
+  }
+
+  /* ─── settings ───────────────────────────────────────── */
+  .settings-head {
+    display: flex; align-items: center; gap: 14px;
+    padding: 4px 0 22px;
+  }
+  .settings-head .avatar {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, var(--focus), #8a3a20);
+    color: var(--cream);
+    display: grid; place-items: center;
+    font-family: var(--serif);
+    font-weight: 360; font-size: 24px;
+  }
+  .settings-head .name {
+    font-family: var(--serif);
+    font-weight: 360; font-size: 22px;
+    letter-spacing: -.02em;
+  }
+  .settings-head .since {
+    font-family: var(--mono);
+    font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--mute);
+    margin-top: 2px;
+  }
+  .settings-stats {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 8px; margin-bottom: 18px;
+  }
+  .settings-stats .s {
+    padding: 14px 12px;
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+  }
+  .settings-stats .l {
+    font-family: var(--mono);
+    font-size: 9px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--mute);
+    margin-bottom: 4px;
+  }
+  .settings-stats .v {
+    font-family: var(--serif);
+    font-weight: 360; font-size: 22px;
+    letter-spacing: -.02em; line-height: 1;
+  }
+  .settings-stats .v small {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--mute);
+    margin-left: 3px;
+    letter-spacing: .1em;
+  }
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--mute);
+    margin: 16px 0 8px;
+  }
+  .settings-list {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .settings-list .item {
+    display: grid; grid-template-columns: 1fr auto;
+    align-items: center; gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .settings-list .item:last-child { border-bottom: 0; }
+  .settings-list .item .l { font-size: 14px; color: var(--ink); }
+  .settings-list .item .r {
+    font-family: var(--mono);
+    font-size: 11px; letter-spacing: .04em;
+    color: var(--mute);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .settings-list .item .r svg { width: 12px; height: 12px; }
+  .switch {
+    width: 36px; height: 20px;
+    border-radius: 999px;
+    background: var(--paper-2);
+    position: relative;
+    transition: background .2s var(--ease);
+    cursor: pointer;
+  }
+  .switch::after {
+    content: "";
+    position: absolute;
+    left: 2px; top: 2px;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--cream);
+    box-shadow: 0 1px 3px rgba(0,0,0,.18);
+    transition: transform .25s var(--ease);
+  }
+  .switch.is-on { background: var(--ink); }
+  .switch.is-on::after { transform: translateX(16px); }
+  .danger {
+    text-align: center;
+    padding: 22px 0 0;
+  }
+  .danger button {
+    font-family: var(--mono);
+    font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--mute);
+    padding: 10px;
+  }
+
+  /* profile button (in greet) */
+  .profile-btn {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--cream);
+    display: grid; place-items: center;
+    font-family: var(--serif);
+    font-weight: 360;
+    font-size: 14px;
+    letter-spacing: 0;
+    transition: transform .2s var(--ease);
+  }
+  .profile-btn:active { transform: scale(0.95); }
+
+  /* see-all link inside ritual-hero */
+  .see-all {
+    display: flex; align-items: center; justify-content: space-between; gap: 6px;
+    width: 100%;
+    font-family: var(--mono);
+    font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--mute);
+    padding: 14px 0 0;
+    margin-top: 14px;
+    border-top: 1px dashed var(--line);
+  }
+  .see-all .lbl { color: var(--ink-2); }
+  .see-all .arr svg { width: 12px; height: 12px; }
 </style>
 </head>
 <body>
@@ -1152,6 +1698,100 @@
   <div class="phone">
     <div class="screen">
 
+      <!-- onboarding overlay (first launch) -->
+      <div class="onboarding" id="onboarding">
+        <div class="head">
+          <div class="progress" id="onboardProgress">
+            <span class="on"></span><span></span><span></span><span></span><span></span>
+          </div>
+          <button class="skip" id="skipOnboard">Skip</button>
+        </div>
+        <div class="stage">
+          <div class="onboard-step is-active" data-step="0">
+            <span class="eyebrow">welcome</span>
+            <h2>A 5-minute reset, <em>built for you</em>.</h2>
+            <p>Pick how you want to feel today. We'll handle the breath, the stretch, and the prompt.</p>
+          </div>
+
+          <div class="onboard-step" data-step="1">
+            <span class="eyebrow">first things first</span>
+            <h2>What should we <em>call you</em>?</h2>
+            <input class="text-input" type="text" id="onboardName" placeholder="Type your name" autocomplete="off" />
+          </div>
+
+          <div class="onboard-step" data-step="2">
+            <span class="eyebrow">choose a default</span>
+            <h2>Most days, you want to <em>feel</em>...</h2>
+            <div class="onboard-intent-grid" id="onboardIntents">
+              <button class="onboard-intent is-active" data-i="focus">
+                <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg></span>
+                <div>
+                  <div class="name">Focused</div>
+                  <div class="desc">deep work · lion's mane</div>
+                </div>
+              </button>
+              <button class="onboard-intent" data-i="energize">
+                <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span>
+                <div>
+                  <div class="name">Energized</div>
+                  <div class="desc">go-mode · cordyceps</div>
+                </div>
+              </button>
+              <button class="onboard-intent" data-i="unwind">
+                <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></span>
+                <div>
+                  <div class="name">Calm</div>
+                  <div class="desc">wind down · reishi</div>
+                </div>
+              </button>
+              <button class="onboard-intent" data-i="recover">
+                <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-7-11a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 6.5-7 11-7 11Z"/></svg></span>
+                <div>
+                  <div class="name">Recovering</div>
+                  <div class="desc">soft mode · chaga</div>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <div class="onboard-step" data-step="3">
+            <span class="eyebrow">a gentle nudge</span>
+            <h2>When should we <em>remind you</em>?</h2>
+            <p>One push notification a day. Change it any time.</p>
+            <div class="time-grid" id="timeOpts">
+              <button class="time-opt" data-t="early">
+                <div class="when">Early</div>
+                <div class="time">7:00 am</div>
+              </button>
+              <button class="time-opt is-active" data-t="morning">
+                <div class="when">Morning</div>
+                <div class="time">8:30 am</div>
+              </button>
+              <button class="time-opt" data-t="lunch">
+                <div class="when">Lunch</div>
+                <div class="time">12:30 pm</div>
+              </button>
+              <button class="time-opt" data-t="evening">
+                <div class="when">Evening</div>
+                <div class="time">9:00 pm</div>
+              </button>
+            </div>
+          </div>
+
+          <div class="onboard-step" data-step="4" style="text-align:center;">
+            <div class="done-check">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
+            </div>
+            <span class="eyebrow">all set</span>
+            <h2 style="text-align:center;">You're in, <em><span id="welcomeName">friend</span></em>.</h2>
+            <p style="margin:0 auto;text-align:center;">Your first reset is waiting on the Today tab.</p>
+          </div>
+        </div>
+        <div class="foot">
+          <button class="btn full" id="onboardNext">Continue <span class="arrow">→</span></button>
+        </div>
+      </div>
+
       <div class="notch"></div>
 
       <!-- status bar -->
@@ -1176,10 +1816,12 @@
 
           <div class="greet">
             <div>
-              <div class="name">Hi, Maya</div>
+              <div class="name"><span id="greetName">Hi, Maya</span> · Mon 12 May</div>
               <h1>Today's <em>reset</em>.</h1>
             </div>
-            <div class="date">Mon · 12 May</div>
+            <button class="profile-btn" id="profileBtn" aria-label="Open settings">
+              <span id="profileInitial">M</span>
+            </button>
           </div>
 
           <!-- intention picker -->
@@ -1231,6 +1873,10 @@
               <span class="time">Best before noon</span>
               <button class="btn" id="startRitual">Begin · 5 min <span class="arrow">→</span></button>
             </div>
+            <button class="see-all" id="seeAll">
+              <span class="lbl">Browse all 12 rituals</span>
+              <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            </button>
           </div>
 
           <!-- sip pairing -->
@@ -1351,7 +1997,7 @@
           <div class="eyebrow" style="margin-bottom:10px;display:block;">Featured this week</div>
 
           <div class="articles">
-            <button class="article video">
+            <button class="article video" data-article="a1">
               <div>
                 <div class="lbl">Video · 04:12</div>
                 <div class="title">How lion's mane actually crosses the blood–brain barrier</div>
@@ -1361,7 +2007,7 @@
                 <svg viewBox="0 0 12 12" fill="currentColor"><path d="M3 1.5v9l8-4.5z"/></svg>
               </span>
             </button>
-            <button class="article">
+            <button class="article" data-article="a2">
               <div>
                 <div class="lbl">Read · 3 min</div>
                 <div class="title">The cortisol curve — why reishi at 9pm works</div>
@@ -1371,7 +2017,7 @@
                 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 2l5 4-5 4"/></svg>
               </span>
             </button>
-            <button class="article">
+            <button class="article" data-article="a3">
               <div>
                 <div class="lbl">Read · 5 min</div>
                 <div class="title">Cordyceps before a workout vs. before a meeting</div>
@@ -1571,6 +2217,222 @@
           </div>
           <div class="prompt" id="ritualPrompt">What's one thing today <em>actually</em> needs you?</div>
           <button class="btn full" id="ritualNext">Next moment <span class="arrow">→</span></button>
+        </div>
+      </div>
+
+      <!-- ─── ritual catalog sheet ─── -->
+      <div class="sheet" id="ritualCatalog">
+        <div class="sheet-head">
+          <button class="sheet-close" data-close="ritualCatalog" aria-label="Close">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+          <div class="sheet-title">All rituals · 12</div>
+          <div style="width:36px"></div>
+        </div>
+        <div class="sheet-body">
+          <h2>Pick your <em>moment</em>.</h2>
+
+          <div class="ritual-group">
+            <div class="heading">
+              <span class="sw" style="background:#D87A5C"></span>
+              <span class="name">Focus</span>
+              <span class="count">3 rituals</span>
+            </div>
+            <button class="ritual-row" data-i="focus">
+              <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+              <div><div class="title">Box breath + focus prompt</div><div class="meta">5 min · default</div></div>
+              <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            </button>
+            <button class="ritual-row" data-i="focus">
+              <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h3l3-7 4 14 3-7h4"/></svg></span>
+              <div><div class="title">Pre-meeting reset</div><div class="meta">3 min · quick</div></div>
+              <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            </button>
+            <button class="ritual-row" data-i="focus">
+              <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M9 15l6-6"/></svg></span>
+              <div><div class="title">Deep work primer</div><div class="meta">12 min · long</div></div>
+              <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            </button>
+          </div>
+
+          <div class="ritual-group">
+            <div class="heading">
+              <span class="sw" style="background:#E8A85B"></span>
+              <span class="name">Energize</span>
+              <span class="count">3 rituals</span>
+            </div>
+            <button class="ritual-row" data-i="energize">
+              <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span>
+              <div><div class="title">Wake-up flow</div><div class="meta">7 min · morning</div></div>
+              <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            </button>
+            <button class="ritual-row" data-i="energize">
+              <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12h12M12 6v12"/></svg></span>
+              <div><div class="title">3pm slump break</div><div class="meta">5 min · midday</div></div>
+              <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            </button>
+            <button class="ritual-row" data-i="energize">
+              <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v3M12 20v3M4 12H1M23 12h-3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></span>
+              <div><div class="title">Pre-workout primer</div><div class="meta">4 min · sport</div></div>
+              <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            </button>
+          </div>
+
+          <div class="ritual-group">
+            <div class="heading">
+              <span class="sw" style="background:#9C8AB8"></span>
+              <span class="name">Unwind</span>
+              <span class="count">3 rituals</span>
+            </div>
+            <button class="ritual-row" data-i="unwind">
+              <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></span>
+              <div><div class="title">9pm wind-down</div><div class="meta">10 min · evening</div></div>
+              <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            </button>
+            <button class="ritual-row" data-i="unwind">
+              <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12c2-5 6-5 8 0s6 5 8 0"/></svg></span>
+              <div><div class="title">Decompress in 5</div><div class="meta">5 min · quick</div></div>
+              <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            </button>
+            <button class="ritual-row" data-i="unwind">
+              <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9c2-1 5-1 7 1s5 2 7 1M5 14c2-1 5-1 7 1s5 2 7 1"/></svg></span>
+              <div><div class="title">Pre-sleep body scan</div><div class="meta">15 min · long</div></div>
+              <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            </button>
+          </div>
+
+          <div class="ritual-group">
+            <div class="heading">
+              <span class="sw" style="background:#7FA68C"></span>
+              <span class="name">Recover</span>
+              <span class="count">3 rituals</span>
+            </div>
+            <button class="ritual-row" data-i="recover">
+              <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-7-11a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 6.5-7 11-7 11Z"/></svg></span>
+              <div><div class="title">Soft-day reset</div><div class="meta">12 min · midday</div></div>
+              <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            </button>
+            <button class="ritual-row" data-i="recover">
+              <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18l-2 12H5L3 7zM8 7V4h8v3"/></svg></span>
+              <div><div class="title">Post-travel rebuild</div><div class="meta">15 min · special</div></div>
+              <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            </button>
+            <button class="ritual-row" data-i="recover">
+              <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-7"/></svg></span>
+              <div><div class="title">Sick-day soft start</div><div class="meta">8 min · gentle</div></div>
+              <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── article reader sheet ─── -->
+      <div class="sheet" id="reader">
+        <div class="sheet-head" style="position:absolute;top:0;left:0;right:0;z-index:2;">
+          <button class="sheet-close" data-close="reader" aria-label="Close">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+          <div class="sheet-title" id="readerCrumb" style="color:rgba(251,247,238,.78);">Mushroom 101 · video</div>
+          <div style="width:36px"></div>
+        </div>
+        <div class="sheet-body" style="padding-top:0;">
+          <div class="reader-hero" id="readerHero">
+            <div class="crumb" id="readerEyebrow">Video · 04:12</div>
+            <div>
+              <h1 id="readerTitle">How lion's mane crosses the <em>blood–brain barrier</em></h1>
+              <div class="byline" id="readerByline">Dr. Veronica Jow · 12 May</div>
+            </div>
+          </div>
+          <div class="audio-bar">
+            <button class="play"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M3 1.5v9l8-4.5z"/></svg></button>
+            <div class="track"></div>
+            <div class="dur">01:18 / 04:12</div>
+          </div>
+          <div class="reader-body" id="readerBody"></div>
+          <div class="reader-related">
+            <div class="lbl">Keep reading</div>
+            <button class="article" data-article="a2" style="margin-bottom:8px;">
+              <div>
+                <div class="lbl">Read · 3 min</div>
+                <div class="title">The cortisol curve — why reishi at 9pm works</div>
+                <div class="meta"><span>Dr. V. Jow</span> · primer</div>
+              </div>
+              <span class="play"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 2l5 4-5 4"/></svg></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── settings / profile sheet ─── -->
+      <div class="sheet" id="settings">
+        <div class="sheet-head">
+          <button class="sheet-close" data-close="settings" aria-label="Close">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+          <div class="sheet-title">Profile · settings</div>
+          <div style="width:36px"></div>
+        </div>
+        <div class="sheet-body">
+          <div class="settings-head">
+            <div class="avatar" id="settingsAvatar">M</div>
+            <div>
+              <div class="name" id="settingsName">Maya Reyes</div>
+              <div class="since">Member since · May 2026</div>
+            </div>
+          </div>
+          <div class="settings-stats">
+            <div class="s"><div class="l">Streak</div><div class="v">9<small>d</small></div></div>
+            <div class="s"><div class="l">Rituals</div><div class="v">42</div></div>
+            <div class="s"><div class="l">Minutes</div><div class="v">218</div></div>
+          </div>
+
+          <div class="section-label">Reminders</div>
+          <div class="settings-list">
+            <div class="item">
+              <div class="l">Daily reset · 8:30 am</div>
+              <div class="r"><span class="switch is-on" data-switch></span></div>
+            </div>
+            <div class="item">
+              <div class="l">Tonight's wind-down · 9:00 pm</div>
+              <div class="r"><span class="switch is-on" data-switch></span></div>
+            </div>
+            <div class="item">
+              <div class="l">Mood check-in</div>
+              <div class="r"><span class="switch" data-switch></span></div>
+            </div>
+          </div>
+
+          <div class="section-label">Connected</div>
+          <div class="settings-list">
+            <div class="item">
+              <div class="l">Apple Health</div>
+              <div class="r">connected <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12l5 5L20 7"/></svg></div>
+            </div>
+            <div class="item">
+              <div class="l">Spotify · soundscapes</div>
+              <div class="r">connect <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 5l7 7-7 7"/></svg></div>
+            </div>
+            <div class="item">
+              <div class="l">Default intention</div>
+              <div class="r" id="defaultIntentionLabel">Focus</div>
+            </div>
+          </div>
+
+          <div class="section-label">Data</div>
+          <div class="settings-list">
+            <div class="item">
+              <div class="l">Export mood + ritual history</div>
+              <div class="r"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 5l7 7-7 7"/></svg></div>
+            </div>
+            <button class="item" id="replayOnboard" style="background:none;border:0;border-top:1px solid var(--line);width:100%;text-align:left;cursor:pointer;font:inherit;color:inherit;">
+              <div class="l">Replay onboarding</div>
+              <div class="r"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 5l7 7-7 7"/></svg></div>
+            </button>
+          </div>
+
+          <div class="danger">
+            <button>Sign out</button>
+          </div>
         </div>
       </div>
 
@@ -1806,6 +2668,185 @@
     const btn = e.target.closest('.mood');
     if (!btn) return;
     moodPicker.querySelectorAll('.mood').forEach(m => m.classList.toggle('is-selected', m === btn));
+  });
+
+  // ─── sheet open/close (shared) ────────────────────
+  function openSheet(id)  { document.getElementById(id).classList.add('is-open'); }
+  function closeSheet(id) { document.getElementById(id).classList.remove('is-open'); }
+  document.querySelectorAll('[data-close]').forEach(b =>
+    b.addEventListener('click', () => closeSheet(b.dataset.close))
+  );
+
+  // ─── settings + profile ──────────────────────────
+  const profileBtn      = document.getElementById('profileBtn');
+  const profileInitial  = document.getElementById('profileInitial');
+  const greetName       = document.getElementById('greetName');
+  const settingsName    = document.getElementById('settingsName');
+  const settingsAvatar  = document.getElementById('settingsAvatar');
+  const defaultIntentionLabel = document.getElementById('defaultIntentionLabel');
+  profileBtn.addEventListener('click', () => openSheet('settings'));
+  document.querySelectorAll('[data-switch]').forEach(s =>
+    s.addEventListener('click', () => s.classList.toggle('is-on'))
+  );
+
+  function hydrateProfile(name, intent) {
+    const first = (name || 'Maya').split(' ')[0];
+    const initial = first.charAt(0).toUpperCase();
+    profileInitial.textContent = initial;
+    settingsAvatar.textContent = initial;
+    settingsName.textContent = name || 'Maya Reyes';
+    greetName.textContent = `Hi, ${first}`;
+    defaultIntentionLabel.textContent =
+      ({ focus: 'Focus', energize: 'Energize', unwind: 'Unwind', recover: 'Recover' }[intent] || 'Focus');
+  }
+
+  // ─── onboarding ──────────────────────────────────
+  const onboarding      = document.getElementById('onboarding');
+  const onboardSteps    = document.querySelectorAll('.onboard-step');
+  const onboardNext     = document.getElementById('onboardNext');
+  const onboardProgress = document.getElementById('onboardProgress');
+  const skipOnboard     = document.getElementById('skipOnboard');
+  const onboardName     = document.getElementById('onboardName');
+  const onboardIntents  = document.getElementById('onboardIntents');
+  const welcomeName     = document.getElementById('welcomeName');
+  const timeOpts        = document.getElementById('timeOpts');
+  const replayOnboard   = document.getElementById('replayOnboard');
+
+  let userName   = localStorage.getItem('happie_name')   || 'Maya Reyes';
+  let userIntent = localStorage.getItem('happie_intent') || 'focus';
+  let userTime   = localStorage.getItem('happie_time')   || 'morning';
+  const hasOnboarded = localStorage.getItem('happie_onboarded') === '1';
+
+  let onboardStep = 0;
+  function setOnboardStep(i) {
+    onboardStep = i;
+    onboardSteps.forEach(s => s.classList.toggle('is-active', +s.dataset.step === i));
+    [...onboardProgress.children].forEach((s, j) => s.classList.toggle('on', j <= i));
+    onboardNext.innerHTML = i === 4
+      ? 'Start your first reset <span class="arrow">→</span>'
+      : 'Continue <span class="arrow">→</span>';
+    if (i === 1) setTimeout(() => onboardName.focus(), 320);
+    if (i === 4) welcomeName.textContent = (onboardName.value || userName).trim().split(' ')[0] || 'friend';
+  }
+  onboardNext.addEventListener('click', () => {
+    if (onboardStep === 1 && onboardName.value.trim()) userName = onboardName.value.trim();
+    if (onboardStep < 4) setOnboardStep(onboardStep + 1);
+    else finishOnboarding();
+  });
+  skipOnboard.addEventListener('click', finishOnboarding);
+  onboardIntents.addEventListener('click', e => {
+    const b = e.target.closest('.onboard-intent');
+    if (!b) return;
+    onboardIntents.querySelectorAll('.onboard-intent').forEach(x => x.classList.toggle('is-active', x === b));
+    userIntent = b.dataset.i;
+  });
+  timeOpts.addEventListener('click', e => {
+    const b = e.target.closest('.time-opt');
+    if (!b) return;
+    timeOpts.querySelectorAll('.time-opt').forEach(x => x.classList.toggle('is-active', x === b));
+    userTime = b.dataset.t;
+  });
+  function finishOnboarding() {
+    localStorage.setItem('happie_name', userName);
+    localStorage.setItem('happie_intent', userIntent);
+    localStorage.setItem('happie_time', userTime);
+    localStorage.setItem('happie_onboarded', '1');
+    hydrateProfile(userName, userIntent);
+    applyIntention(userIntent);
+    onboarding.classList.add('is-closed');
+  }
+  // hydrate UI on load
+  onboardName.value = userName;
+  hydrateProfile(userName, userIntent);
+  if (hasOnboarded) onboarding.classList.add('is-closed');
+  replayOnboard.addEventListener('click', () => {
+    closeSheet('settings');
+    setOnboardStep(0);
+    onboarding.classList.remove('is-closed');
+  });
+
+  // ─── ritual catalog → start ritual ───────────────
+  document.getElementById('seeAll').addEventListener('click', () => openSheet('ritualCatalog'));
+  document.querySelectorAll('.ritual-row').forEach(r => {
+    r.addEventListener('click', () => {
+      applyIntention(r.dataset.i);
+      closeSheet('ritualCatalog');
+      setTimeout(openRitual, 380);
+    });
+  });
+
+  // ─── article reader ──────────────────────────────
+  const ARTICLES = {
+    a1: {
+      accent: 'focus',
+      crumb:  'Mushroom 101 · video',
+      eyebrow:'Video · 04:12',
+      title:  "How lion's mane crosses the <em>blood–brain barrier</em>",
+      byline: 'Dr. Veronica Jow · 12 May',
+      body: `
+        <p class="lead">Lion's mane is small enough — and lipid-soluble enough — to slip past the blood–brain barrier with a job already half-done.</p>
+        <p>Most ingredients you read about on a wellness label never reach your brain. The blood–brain barrier is, by design, picky. Lion's mane is one of a small group of compounds that gets through because of two specific bioactive molecules: hericenones and erinacines.</p>
+        <h3>The <em>BDNF</em> story</h3>
+        <p>Both compounds stimulate the release of brain-derived neurotrophic factor — BDNF — the protein that keeps neurons alive and helps them form new connections. More BDNF doesn't make you suddenly smarter. It makes the slow work of focus feel less heavy.</p>
+        <blockquote>You won't feel lion's mane the way you feel caffeine. You'll feel its absence after a week off.</blockquote>
+        <p>That's the part most marketing misses. It's not a hit. It's a floor.</p>
+      `,
+    },
+    a2: {
+      accent: 'unwind',
+      crumb:  'Mushroom 101 · primer',
+      eyebrow:'Read · 3 min',
+      title:  'The cortisol curve — why <em>reishi at 9pm</em> works',
+      byline: 'Dr. Veronica Jow · 09 May',
+      body: `
+        <p class="lead">Cortisol isn't the enemy. The shape of your cortisol curve is.</p>
+        <p>Healthy cortisol peaks within 30 minutes of waking, drops through the morning, plateaus through the afternoon, and bottoms out before sleep. Modern life flattens that curve — and reishi, taken at the right hour, helps re-steepen it.</p>
+        <h3>Why <em>9pm</em></h3>
+        <p>Reishi's triterpenes don't sedate. They modulate the HPA axis. Take them in the morning and you feel nothing. Take them in the evening, when cortisol should be falling anyway, and you give the curve a small push in the right direction.</p>
+        <blockquote>Reishi doesn't make you sleepy. It makes you sleepable.</blockquote>
+      `,
+    },
+    a3: {
+      accent: 'energize',
+      crumb:  'Mushroom 101 · trial',
+      eyebrow:'Read · 5 min',
+      title:  'Cordyceps before a workout vs. before a <em>meeting</em>',
+      byline: 'Sourced · trial summary',
+      body: `
+        <p class="lead">Same compound, two jobs — depending on what your body is being asked to do.</p>
+        <p>Cordyceps boosts ATP production, the energy currency of every cell. Before a workout that shows up as a higher VO₂ max and slower lactate accumulation. Before a meeting, it shows up as steadier attention and faster recovery from mental fatigue.</p>
+        <h3>Timing</h3>
+        <p>For exercise: 60–90 minutes before. For cognition: 30–45 minutes before. The difference isn't the compound — it's how long ATP demand takes to rise in each context.</p>
+      `,
+    },
+  };
+  const reader        = document.getElementById('reader');
+  const readerCrumb   = document.getElementById('readerCrumb');
+  const readerEyebrow = document.getElementById('readerEyebrow');
+  const readerTitle   = document.getElementById('readerTitle');
+  const readerByline  = document.getElementById('readerByline');
+  const readerBody    = document.getElementById('readerBody');
+  const ACCENT = { focus: '#D87A5C', energize: '#E8A85B', unwind: '#9C8AB8', recover: '#7FA68C' };
+
+  function openArticle(id) {
+    const art = ARTICLES[id];
+    if (!art) return;
+    readerCrumb.textContent   = art.crumb;
+    readerEyebrow.textContent = art.eyebrow;
+    readerTitle.innerHTML     = art.title;
+    readerByline.textContent  = art.byline;
+    readerBody.innerHTML      = art.body;
+    reader.style.setProperty('--accent', ACCENT[art.accent]);
+    openSheet('reader');
+    document.querySelector('#reader .sheet-body').scrollTo({ top: 0 });
+  }
+  document.querySelectorAll('[data-article]').forEach(a =>
+    a.addEventListener('click', () => openArticle(a.dataset.article))
+  );
+  // tap a mushroom tile → open matching primer
+  document.querySelectorAll('.mush').forEach(m => {
+    const map = { lionsmane: 'a1', reishi: 'a2', cordyceps: 'a3', chaga: 'a1' };
+    m.addEventListener('click', () => openArticle(map[m.dataset.m]));
   });
 </script>
 
