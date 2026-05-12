@@ -1751,6 +1751,73 @@
   .pane.is-active[data-pane="mood"] .mood-dots circle:nth-child(5) { transition-delay: 1.35s; }
   .pane.is-active[data-pane="mood"] .mood-dots circle:nth-child(6) { transition-delay: 1.45s; }
 
+  /* desktop hover affordances — make everything feel alive */
+  @media (hover: hover) and (pointer: fine) {
+    .intention,
+    .article,
+    .flavor,
+    .mush,
+    .tonight,
+    .stat,
+    .sip,
+    .ritual-row,
+    .channel,
+    .sheet-close,
+    .profile-btn,
+    .close,
+    .tab,
+    .see-all,
+    .audio-bar .play,
+    .article .play,
+    .skip,
+    .switch,
+    .mood,
+    .time-opt,
+    .onboard-intent {
+      transition:
+        transform .3s var(--ease-out-soft),
+        box-shadow .3s var(--ease-out-soft),
+        background .3s var(--ease-out-soft),
+        border-color .3s var(--ease-out-soft),
+        opacity .3s var(--ease-out-soft);
+    }
+    .intention:hover:not(.is-active) {
+      background: color-mix(in srgb, var(--cream) 88%, var(--ink));
+      border-color: var(--line-2);
+      transform: translateY(-1px);
+    }
+    .article:hover,
+    .flavor:hover,
+    .mush:hover,
+    .tonight:hover,
+    .ritual-row:hover,
+    .channel:hover,
+    .time-opt:not(.is-active):hover,
+    .onboard-intent:not(.is-active):hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px -14px rgba(30,37,32,.22);
+      border-color: var(--line-2);
+    }
+    .stat:hover, .sip:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px -14px rgba(30,37,32,.18);
+    }
+    .tab:hover:not(.is-active) { color: var(--ink-2); }
+    .btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
+    .sheet-close:hover, .close:hover, .profile-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px -10px rgba(30,37,32,.22);
+    }
+    .see-all:hover .arr { transform: translateX(4px); }
+    .see-all .arr { transition: transform .25s var(--ease-out-soft); }
+    .mush:hover .icon { transform: scale(1.08) rotate(-2deg); }
+    .mush .icon { transition: transform .35s var(--ease-spring); }
+    .mood:hover:not(.is-selected) {
+      background: color-mix(in srgb, var(--paper-2) 60%, var(--cream));
+      transform: translateY(-1px);
+    }
+  }
+
   /* see-all link inside ritual-hero */
   .see-all {
     display: flex; align-items: center; justify-content: space-between; gap: 6px;
@@ -2699,6 +2766,12 @@
 
   let current = 'focus';
 
+  const ACCENT_HEX = {
+    focus:    '#2D6953',
+    energize: '#D4A14C',
+    unwind:   '#8FA0B8',
+    recover:  '#87A892',
+  };
   function applyIntention(name) {
     const cfg = INTENTIONS[name];
     current = name;
@@ -2712,11 +2785,9 @@
       `<div class="step"><span class="num">0${i+1}</span><span>${s}</span><span class="dur">${d}</span></div>`
     ).join('');
     sipName.innerHTML = cfg.sip;
-    // recolor sip can via inline var
-    const colors = { focus:'#D87A5C', energize:'#E8A85B', unwind:'#9C8AB8', recover:'#7FA68C' };
-    sipCard.style.setProperty('--accent', colors[name]);
-    ritualScreen.style.setProperty('--accent', colors[name]);
-    ritualHero.style.setProperty('--accent', colors[name]);
+    sipCard.style.setProperty('--accent', ACCENT_HEX[name]);
+    ritualScreen.style.setProperty('--accent', ACCENT_HEX[name]);
+    ritualHero.style.setProperty('--accent', ACCENT_HEX[name]);
   }
   intentions.forEach(b => b.addEventListener('click', () => applyIntention(b.dataset.i)));
   applyIntention('focus');
@@ -2934,7 +3005,7 @@
   const readerTitle   = document.getElementById('readerTitle');
   const readerByline  = document.getElementById('readerByline');
   const readerBody    = document.getElementById('readerBody');
-  const ACCENT = { focus: '#D87A5C', energize: '#E8A85B', unwind: '#9C8AB8', recover: '#7FA68C' };
+  const ACCENT = ACCENT_HEX;
 
   function openArticle(id) {
     const art = ARTICLES[id];
