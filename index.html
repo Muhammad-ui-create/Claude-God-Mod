@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <meta name="theme-color" content="#F5EFE2" />
 <title>Happie — your daily reset</title>
 <meta name="description" content="A micro-wellness companion built around 5–15 minute rituals for focus, recovery, calm, and energy. From the makers of Drink Happie." />
@@ -18,8 +18,8 @@
     --cream:      #FBF7EE;   /* card surface */
     --ink:        #2A231A;   /* warm near-black */
     --ink-2:      #4A3F31;
-    --mute:       #8C8170;
-    --mute-2:     #B6A998;
+    --mute:       #6F6553;            /* darkened to pass WCAG AA on cream + paper */
+    --mute-2:     #9F937E;
     --line:       rgba(42, 35, 26, 0.08);
     --line-2:     rgba(42, 35, 26, 0.14);
 
@@ -391,9 +391,15 @@
     border-radius: 16px;
     padding: 12px 6px 10px;
     display: flex; flex-direction: column; align-items: center; gap: 6px;
-    transition: all .25s var(--ease);
+    transition:
+      transform .45s cubic-bezier(.34, 1.56, .64, 1),
+      border-color .25s var(--ease),
+      box-shadow .25s var(--ease),
+      background .25s var(--ease);
     position: relative;
   }
+  .intention:active { transform: scale(0.93); }
+  .intention.is-active:active { transform: translateY(-2px) scale(0.96); }
   .intention .glyph {
     width: 28px; height: 28px;
     display: grid; place-items: center;
@@ -653,17 +659,31 @@
       radial-gradient(circle at 35% 30%, rgba(255,255,255,.5), transparent 50%),
       radial-gradient(circle, var(--accent, var(--focus)) 0%, color-mix(in srgb, var(--accent, var(--focus)) 40%, #2a231a) 100%);
     box-shadow: 0 30px 80px -20px color-mix(in srgb, var(--accent, var(--focus)) 60%, transparent);
-    animation: breathe 8s var(--ease) infinite;
     display: grid; place-items: center;
     color: var(--cream);
     font-family: var(--serif);
     font-weight: 360;
     font-size: 24px;
     letter-spacing: -.02em;
+    transform: scale(0.3);
+    opacity: 0;
+    will-change: transform, opacity, filter;
+  }
+  .ritual-screen.is-open .breath {
+    animation:
+      breath-enter .9s cubic-bezier(.16, 1, .3, 1) both,
+      breathe 8s ease-in-out .9s infinite;
+  }
+  @keyframes breath-enter {
+    0%   { transform: scale(0.3);  opacity: 0; filter: blur(24px); }
+    60%  { opacity: 1; filter: blur(0); }
+    100% { transform: scale(0.78); opacity: 1; filter: blur(0); }
   }
   @keyframes breathe {
     0%, 100% { transform: scale(0.78); }
-    45%,55%  { transform: scale(1);    }
+    25%      { transform: scale(1);    }
+    50%      { transform: scale(1);    }
+    75%      { transform: scale(0.78); }
   }
   .breath-label {
     font-family: var(--mono);
@@ -1159,12 +1179,17 @@
     position: absolute;
     inset: 36px 28px 0;
     opacity: 0;
-    transform: translateX(14px);
-    transition: opacity .4s var(--ease), transform .4s var(--ease);
+    transform: translateX(48px);
+    transition:
+      opacity .5s var(--ease),
+      transform .6s cubic-bezier(.16, 1, .3, 1);
     pointer-events: none;
   }
   .onboard-step.is-active {
     opacity: 1; transform: translateX(0); pointer-events: auto;
+  }
+  .onboard-step.is-past {
+    opacity: 0; transform: translateX(-48px); pointer-events: none;
   }
   .onboard-step .eyebrow { margin-bottom: 12px; display: inline-block; }
   .onboard-step h2 {
@@ -1652,6 +1677,35 @@
   }
   .profile-btn:active { transform: scale(0.95); }
 
+  /* mood chart animate-in */
+  .mood-line {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    transition: stroke-dashoffset 1.6s cubic-bezier(.16, 1, .3, 1) .15s;
+  }
+  .pane.is-active[data-pane="mood"] .mood-line { stroke-dashoffset: 0; }
+  .mood-area,
+  .mood-dots circle,
+  .mood-today {
+    opacity: 0;
+    transition: opacity .5s var(--ease) .9s, transform .5s cubic-bezier(.34, 1.56, .64, 1) .9s;
+    transform-origin: center;
+    transform-box: fill-box;
+  }
+  .mood-dots circle { transform: scale(0.4); }
+  .mood-today { transform: scale(0.4); transition-delay: 1.5s; }
+  .pane.is-active[data-pane="mood"] .mood-area,
+  .pane.is-active[data-pane="mood"] .mood-dots circle,
+  .pane.is-active[data-pane="mood"] .mood-today {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .pane.is-active[data-pane="mood"] .mood-dots circle:nth-child(2) { transition-delay: 1.05s; }
+  .pane.is-active[data-pane="mood"] .mood-dots circle:nth-child(3) { transition-delay: 1.15s; }
+  .pane.is-active[data-pane="mood"] .mood-dots circle:nth-child(4) { transition-delay: 1.25s; }
+  .pane.is-active[data-pane="mood"] .mood-dots circle:nth-child(5) { transition-delay: 1.35s; }
+  .pane.is-active[data-pane="mood"] .mood-dots circle:nth-child(6) { transition-delay: 1.45s; }
+
   /* see-all link inside ritual-hero */
   .see-all {
     display: flex; align-items: center; justify-content: space-between; gap: 6px;
@@ -1809,7 +1863,7 @@
       </div>
 
       <!-- body (tab panels) -->
-      <div class="body">
+      <main class="body" role="main" aria-label="Happie app">
 
         <!-- ───── TAB 1: TODAY ───── -->
         <section class="pane is-active" data-pane="today" id="pane-today">
@@ -2084,12 +2138,12 @@
                   <line x1="0" y1="105" x2="280" y2="105"/>
                 </g>
                 <!-- area -->
-                <path d="M10,80 C40,60 60,50 80,55 C110,62 130,40 160,46 C190,52 210,72 240,60 C260,52 270,68 270,68 L270,140 L10,140 Z" fill="url(#grad)"/>
+                <path class="mood-area" d="M10,80 C40,60 60,50 80,55 C110,62 130,40 160,46 C190,52 210,72 240,60 C260,52 270,68 270,68 L270,140 L10,140 Z" fill="url(#grad)"/>
                 <!-- line -->
-                <path d="M10,80 C40,60 60,50 80,55 C110,62 130,40 160,46 C190,52 210,72 240,60 C260,52 270,68 270,68"
+                <path class="mood-line" pathLength="100" d="M10,80 C40,60 60,50 80,55 C110,62 130,40 160,46 C190,52 210,72 240,60 C260,52 270,68 270,68"
                       fill="none" stroke="#D87A5C" stroke-width="2" stroke-linecap="round"/>
                 <!-- dots -->
-                <g fill="#FBF7EE" stroke="#D87A5C" stroke-width="1.8">
+                <g class="mood-dots" fill="#FBF7EE" stroke="#D87A5C" stroke-width="1.8">
                   <circle cx="10" cy="80" r="3.2"/>
                   <circle cx="55" cy="55" r="3.2"/>
                   <circle cx="100" cy="60" r="3.2"/>
@@ -2098,8 +2152,8 @@
                   <circle cx="235" cy="62" r="3.2"/>
                 </g>
                 <!-- today highlight -->
-                <circle cx="270" cy="68" r="5" fill="#2A231A"/>
-                <circle cx="270" cy="68" r="9" fill="none" stroke="#2A231A" stroke-opacity=".18"/>
+                <circle class="mood-today" cx="270" cy="68" r="5" fill="#2A231A"/>
+                <circle class="mood-today" cx="270" cy="68" r="9" fill="none" stroke="#2A231A" stroke-opacity=".18"/>
               </svg>
               <div class="labels">
                 <span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span><span class="today">M</span>
@@ -2194,7 +2248,7 @@
           </div>
         </section>
 
-      </div>
+      </main>
 
       <!-- ritual overlay -->
       <div class="ritual-screen" id="ritualScreen" data-mood="focus">
@@ -2344,7 +2398,7 @@
             </div>
           </div>
           <div class="audio-bar">
-            <button class="play"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M3 1.5v9l8-4.5z"/></svg></button>
+            <button class="play" aria-label="Play audio"><svg viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M3 1.5v9l8-4.5z"/></svg></button>
             <div class="track"></div>
             <div class="dur">01:18 / 04:12</div>
           </div>
@@ -2720,7 +2774,11 @@
   let onboardStep = 0;
   function setOnboardStep(i) {
     onboardStep = i;
-    onboardSteps.forEach(s => s.classList.toggle('is-active', +s.dataset.step === i));
+    onboardSteps.forEach(s => {
+      const idx = +s.dataset.step;
+      s.classList.toggle('is-active', idx === i);
+      s.classList.toggle('is-past', idx < i);
+    });
     [...onboardProgress.children].forEach((s, j) => s.classList.toggle('on', j <= i));
     onboardNext.innerHTML = i === 4
       ? 'Start your first reset <span class="arrow">→</span>'
